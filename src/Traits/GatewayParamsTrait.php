@@ -12,25 +12,6 @@ use Omnipay\Common\AbstractGateway;
 trait GatewayParamsTrait
 {
     /**
-     * getTestMode
-     * @return string
-     */
-    public function getTestMode() : string
-    {
-        return $this->getParameter('testMode');
-    }
-
-    /**
-     * setTestMode
-     * @param  [type]           $value
-     * @return AbstractGateway
-     */
-    public function setTestMode($value) : AbstractGateway
-    {
-        return $this->setParameter('merchantId', $value);
-    }
-
-    /**
      * getMerchantId
      * @return string
      */

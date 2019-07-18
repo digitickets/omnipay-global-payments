@@ -59,4 +59,34 @@ class CompleteRedirectPurchaseResponse extends AbstractPurchaseResponse
         return isset($this->data[static::PASREF]) ?
         $this->data[static::PASREF] : null;
     }
+
+    /**
+     * Gets the redirect target url.
+     *
+     * @return string
+     */
+    public function getRedirectUrl()
+    {
+        return null;
+    }
+
+    /**
+     * Get the required redirect method (either GET or POST).
+     *
+     * @return string
+     */
+    public function getRedirectMethod()
+    {
+        return null;
+    }
+
+    /**
+     * Gets the redirect form data array, if the redirect method is POST.
+     *
+     * @return array
+     */
+    public function getRedirectData()
+    {
+        return null;
+    }
 }

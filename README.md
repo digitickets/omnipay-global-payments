@@ -5,7 +5,7 @@
 [Omnipay](https://github.com/thephpleague/omnipay) is a framework agnostic, multi-gateway payment
 processing library for PHP 5.3+.
 
-This package implements GlobalPayments support for Omnipay Off-site, where the customer is redirected to enter payment details
+This package implements only GlobalPayments support for Omnipay 2.x Off-sites, where the customer is redirected to enter payment details
 
 ## Installation
 

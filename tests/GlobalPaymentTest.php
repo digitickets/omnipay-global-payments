@@ -1,21 +1,51 @@
 <?php
 
+namespace Omnipay\GlobalPayments\Test\Gateway;
+
+use Omnipay\GlobalPayments\Gateway;
 use Omnipay\GlobalPayments\Message\RedirectPurchaseRequest;
 use Omnipay\GlobalPayments\Message\RedirectPurchaseResponse;
-use Omnipay\Omnipay;
-use PHPUnit\Framework\TestCase;
 
-class purchaseTest extends TestCase
+use Omnipay\Tests\GatewayTestCase;
+
+class GlobalPaymentTest extends GatewayTestCase
 {
+    /**
+     * @var \Omnipay\GlobalPayments\Gateway
+     */
+    protected $gateway;
 
+    /**
+     * @var array
+     */
+    protected $options;
+
+    /**
+     * @var array
+     */
     protected $cardData = null;
-    protected $credentials = null;
 
     /**
      * Setup
      */
     protected function setUp(): void
     {
+        parent::setUp();
+        $this->gateway = new Gateway(
+            $this->getHttpClient(),
+            $this->getHttpRequest()
+        );
+
+        $this->options = [
+            'merchantId' => 'totallytest',
+            'account' => 'internet',
+            'sharedSecret' => 'secret',
+            'amount' => 400.00,
+            'currency' => 'EUR',
+            'returnUrl' => '/callback-url',
+            'transactionId' => uniqid(),
+        ];
+
         $this->cardData = [
             'number' => '4263970000005262',
             'expiryMonth' => 12,
@@ -37,11 +67,28 @@ class purchaseTest extends TestCase
             'shippingPhone' => 'Phone',
         ];
 
-        $this->credentials = [
-            'merchant_id' => 'totallytest',
-            'account' => 'internet',
-            'shared_secret' => 'secret',
-        ];
+    }
+
+    public function testPurchase()
+    {
+        $response = $this->gateway->purchase(
+            array_merge($this->options, [
+                'card' => $this->cardData,
+                'description' => 'Purchase test',
+            ]))->send();
+
+        $this->assertInstanceOf(
+            RedirectPurchaseResponse::class,
+            $response
+        );
+
+        $this->assertFalse($response->isPending());
+        $this->assertFalse($response->isSuccessful());
+        $this->assertTrue($response->isRedirect());
+        $this->assertEquals(
+            'https://pay.sandbox.realexpayments.com/pay',
+            $response->getRedirectUrl()
+        );
     }
 
     /**
@@ -49,22 +96,12 @@ class purchaseTest extends TestCase
      */
     public function testFormData()
     {
-        $gateway = Omnipay::create('GlobalPayments');
-
-        $gateway->setTestMode(true);
-
-        $gateway->setMerchantId($this->credentials['merchant_id']);
-        $gateway->setAccount($this->credentials['account']);
-        $gateway->setSharedSecret($this->credentials['shared_secret']);
-
-        $request = $gateway->purchase([
-            'amount' => 400,
-            'currency' => 'EUR',
-            'card' => $this->cardData,
-            'returnUrl' => '/callback/api',
-            'transactionId' => uniqid(),
-            'description' => 'Purchase test',
-        ]);
+        $request = $this->gateway->purchase(
+            array_merge($this->options, [
+                'card' => $this->cardData,
+                'transactionId' => uniqid(),
+                'description' => 'Purchase test',
+            ]));
 
         $params = $request->getData();
 
@@ -81,50 +118,62 @@ class purchaseTest extends TestCase
 
         $this->assertEquals(
             $this->cardData['billingAddress1'],
-            $params[RedirectPurchaseRequest::HPP_BILLING_STREET1]);
+            $params[RedirectPurchaseRequest::HPP_BILLING_STREET1]
+        );
 
         $this->assertEquals(
             $this->cardData['billingAddress2'],
-            $params[RedirectPurchaseRequest::HPP_BILLING_STREET2]);
+            $params[RedirectPurchaseRequest::HPP_BILLING_STREET2]
+        );
 
         $this->assertEquals(
             $this->cardData['billingCity'],
-            $params[RedirectPurchaseRequest::HPP_BILLING_CITY]);
+            $params[RedirectPurchaseRequest::HPP_BILLING_CITY]
+        );
 
         $this->assertEquals(
             $this->cardData['billingPostCode'],
-            $params[RedirectPurchaseRequest::HPP_BILLING_POSTALCODE]);
+            $params[RedirectPurchaseRequest::HPP_BILLING_POSTALCODE]
+        );
 
         $this->assertEquals(
             $this->cardData['billingState'],
-            $params[RedirectPurchaseRequest::HPP_BILLING_STATE]);
+            $params[RedirectPurchaseRequest::HPP_BILLING_STATE]
+        );
 
         $this->assertEquals('826',
-            $params[RedirectPurchaseRequest::HPP_BILLING_COUNTRY]);
+            $params[RedirectPurchaseRequest::HPP_BILLING_COUNTRY]
+        );
 
         $this->assertEquals(
             $this->cardData['shippingAddress1'],
-            $params[RedirectPurchaseRequest::HPP_SHIPPING_STREET1]);
+            $params[RedirectPurchaseRequest::HPP_SHIPPING_STREET1]
+        );
 
         $this->assertEquals(
             $this->cardData['shippingAddress2'],
-            $params[RedirectPurchaseRequest::HPP_SHIPPING_STREET2]);
+            $params[RedirectPurchaseRequest::HPP_SHIPPING_STREET2]
+        );
 
         $this->assertEquals(
             $this->cardData['shippingCity'],
-            $params[RedirectPurchaseRequest::HPP_SHIPPING_CITY]);
+            $params[RedirectPurchaseRequest::HPP_SHIPPING_CITY]
+        );
 
         $this->assertEquals(
             $this->cardData['shippingPostcode'],
-            $params[RedirectPurchaseRequest::HPP_SHIPPING_POSTALCODE]);
+            $params[RedirectPurchaseRequest::HPP_SHIPPING_POSTALCODE]
+        );
 
         $this->assertEquals(
             $this->cardData['shippingState'],
-            $params[RedirectPurchaseRequest::HPP_SHIPPING_STATE]);
+            $params[RedirectPurchaseRequest::HPP_SHIPPING_STATE]
+        );
 
         $this->assertEquals(
             '826',
-            $params[RedirectPurchaseRequest::HPP_SHIPPING_COUNTRY]);
+            $params[RedirectPurchaseRequest::HPP_SHIPPING_COUNTRY]
+        );
 
         return $request;
 
