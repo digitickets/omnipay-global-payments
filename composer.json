@@ -2,7 +2,7 @@
     "name": "digitickets/omnipay.globalpayments",
     "type": "library",
     "description": "Custom OmniPay driver for Global Payments",
-    "keywords": ["omnipay", "sagepay"],
+    "keywords": ["omnipay", "globalpayments"],
     "homepage": "https://gitlab.totallydev.com/digitickets/omnipay.globalpayments",
     "autoload": {
         "psr-4": { "Omnipay\\GlobalPayments\\" : "src/" }
@@ -10,7 +10,7 @@
     "require": {
         "omnipay/common": "~2.0",
         "league/iso3166": "^2.1",
-        "guzzlehttp/psr7": "^1.6"
+        "guzzlehttp/psr7": "1.5.2"
     },
     "require-dev": {
         "omnipay/tests": "~2.0",
