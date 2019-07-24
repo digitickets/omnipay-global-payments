@@ -10,32 +10,32 @@ use Omnipay\Common\Message\ResponseInterface;
 
 class RedirectPurchaseRequest extends AbstractPurchaseRequest
 {
-    public const TIMESTAMP = 'TIMESTAMP';
-    public const MERCHANT_ID = 'MERCHANT_ID';
-    public const ACCOUNT = 'ACCOUNT';
-    public const ORDER_ID = 'ORDER_ID';
-    public const AMOUNT = 'AMOUNT';
-    public const CURRENCY = 'CURRENCY';
-    public const MERCHANT_RESPONSE_URL = 'MERCHANT_RESPONSE_URL';
-    public const AUTO_SETTLE_FLAG = 'AUTO_SETTLE_FLAG';
+    const TIMESTAMP = 'TIMESTAMP';
+    const MERCHANT_ID = 'MERCHANT_ID';
+    const ACCOUNT = 'ACCOUNT';
+    const ORDER_ID = 'ORDER_ID';
+    const AMOUNT = 'AMOUNT';
+    const CURRENCY = 'CURRENCY';
+    const MERCHANT_RESPONSE_URL = 'MERCHANT_RESPONSE_URL';
+    const AUTO_SETTLE_FLAG = 'AUTO_SETTLE_FLAG';
 
-    public const HPP_VERSION = 'HPP_VERSION';
-    public const HPP_CUSTOMER_EMAIL = 'HPP_CUSTOMER_EMAIL';
-    public const HPP_BILLING_STREET1 = 'HPP_BILLING_STREET1';
-    public const HPP_BILLING_STREET2 = 'HPP_BILLING_STREET2';
-    public const HPP_BILLING_STREET3 = 'HPP_BILLING_STREET3';
-    public const HPP_BILLING_CITY = 'HPP_BILLING_CITY';
-    public const HPP_BILLING_STATE = 'HPP_BILLING_STATE';
-    public const HPP_BILLING_POSTALCODE = 'HPP_BILLING_POSTALCODE';
-    public const HPP_BILLING_COUNTRY = 'HPP_BILLING_COUNTRY';
-    public const HPP_SHIPPING_STREET1 = 'HPP_SHIPPING_STREET1';
-    public const HPP_SHIPPING_STREET2 = 'HPP_SHIPPING_STREET2';
-    public const HPP_SHIPPING_STREET3 = 'HPP_SHIPPING_STREET3';
-    public const HPP_SHIPPING_CITY = 'HPP_SHIPPING_CITY';
-    public const HPP_SHIPPING_STATE = 'HPP_SHIPPING_STATE';
-    public const HPP_SHIPPING_POSTALCODE = 'HPP_SHIPPING_POSTALCODE';
-    public const HPP_SHIPPING_COUNTRY = 'HPP_SHIPPING_COUNTRY';
-    public const HPP_CHALLENGE_REQUEST_INDICATOR = 'HPP_CHALLENGE_REQUEST_INDICATOR';
+    const HPP_VERSION = 'HPP_VERSION';
+    const HPP_CUSTOMER_EMAIL = 'HPP_CUSTOMER_EMAIL';
+    const HPP_BILLING_STREET1 = 'HPP_BILLING_STREET1';
+    const HPP_BILLING_STREET2 = 'HPP_BILLING_STREET2';
+    const HPP_BILLING_STREET3 = 'HPP_BILLING_STREET3';
+    const HPP_BILLING_CITY = 'HPP_BILLING_CITY';
+    const HPP_BILLING_STATE = 'HPP_BILLING_STATE';
+    const HPP_BILLING_POSTALCODE = 'HPP_BILLING_POSTALCODE';
+    const HPP_BILLING_COUNTRY = 'HPP_BILLING_COUNTRY';
+    const HPP_SHIPPING_STREET1 = 'HPP_SHIPPING_STREET1';
+    const HPP_SHIPPING_STREET2 = 'HPP_SHIPPING_STREET2';
+    const HPP_SHIPPING_STREET3 = 'HPP_SHIPPING_STREET3';
+    const HPP_SHIPPING_CITY = 'HPP_SHIPPING_CITY';
+    const HPP_SHIPPING_STATE = 'HPP_SHIPPING_STATE';
+    const HPP_SHIPPING_POSTALCODE = 'HPP_SHIPPING_POSTALCODE';
+    const HPP_SHIPPING_COUNTRY = 'HPP_SHIPPING_COUNTRY';
+    const HPP_CHALLENGE_REQUEST_INDICATOR = 'HPP_CHALLENGE_REQUEST_INDICATOR';
 
     /**
      * Returns the data on the request.
@@ -152,7 +152,7 @@ class RedirectPurchaseRequest extends AbstractPurchaseRequest
      * @param string ... a variable length list of required parameters
      * @throws InvalidRequestException
      */
-    public function validate() : void
+    public function validate()
     {
         $this->httpRequest->request;
         foreach (func_get_args() as $key) {

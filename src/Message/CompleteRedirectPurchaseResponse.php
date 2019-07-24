@@ -5,11 +5,11 @@ use Omnipay\Common\Message\RequestInterface;
 
 class CompleteRedirectPurchaseResponse extends AbstractPurchaseResponse
 {
-    public const RESULT = 'RESULT';
-    public const MESSAGE = 'MESSAGE';
-    public const PASREF = 'PASREF';
+    const RESULT = 'RESULT';
+    const MESSAGE = 'MESSAGE';
+    const PASREF = 'PASREF';
 
-    public const RESULT_SUCCESS = '00';
+    const RESULT_SUCCESS = '00';
 
     /**
      * @param RequestInterface $request

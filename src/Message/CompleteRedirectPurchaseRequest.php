@@ -5,14 +5,14 @@ use Omnipay\Common\Exception\InvalidResponseException;
 
 class CompleteRedirectPurchaseRequest extends AbstractPurchaseRequest
 {
-    public const TIMESTAMP = 'TIMESTAMP';
-    public const MERCHANT_ID = 'MERCHANT_ID';
-    public const ORDER_ID = 'ORDER_ID';
-    public const RESULT = 'RESULT';
-    public const MESSAGE = 'MESSAGE';
-    public const PASREF = 'PASREF';
-    public const AUTHCODE = 'AUTHCODE';
-    public const SHA1HASH = 'SHA1HASH';
+    const TIMESTAMP = 'TIMESTAMP';
+    const MERCHANT_ID = 'MERCHANT_ID';
+    const ORDER_ID = 'ORDER_ID';
+    const RESULT = 'RESULT';
+    const MESSAGE = 'MESSAGE';
+    const PASREF = 'PASREF';
+    const AUTHCODE = 'AUTHCODE';
+    const SHA1HASH = 'SHA1HASH';
 
     /**
      * This method will verify if the received information from the provider

@@ -3,7 +3,6 @@ namespace Omnipay\GlobalPayments\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RedirectResponseInterface;
-use Omnipay\Common\Message\RequestInterface;
 use Omnipay\GlobalPayments\Traits\ResponseFieldsTrait;
 
 abstract class AbstractPurchaseResponse extends AbstractResponse implements

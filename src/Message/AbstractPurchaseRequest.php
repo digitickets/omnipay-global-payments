@@ -16,7 +16,10 @@ abstract class AbstractPurchaseRequest extends AbstractRequest
 
     /**
      * setMerchantId
+     *
      * @param [type] $value
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function setMerchantId($value)
     {
@@ -34,7 +37,10 @@ abstract class AbstractPurchaseRequest extends AbstractRequest
 
     /**
      * setAccount
+     *
      * @param [type] $value
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function setAccount($value)
     {
@@ -52,7 +58,10 @@ abstract class AbstractPurchaseRequest extends AbstractRequest
 
     /**
      * setSharedSecret
+     *
      * @param [type] $value
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function setSharedSecret($value)
     {
@@ -70,7 +79,10 @@ abstract class AbstractPurchaseRequest extends AbstractRequest
 
     /**
      * setAutoSettleFlag
+     *
      * @param [type] $value
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
     public function setAutoSettleFlag($value)
     {

@@ -21,7 +21,7 @@ class CompleteRedirectPurchaseResponseSuccessTest extends TestCase
     /**
      * Setup
      */
-    protected function setUp(): void
+    protected function setUp()
     {
         $client = $this->getHttpClient();
         $request = $this->getHttpRequest();
