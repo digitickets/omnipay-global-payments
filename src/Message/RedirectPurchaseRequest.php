@@ -46,11 +46,8 @@ class RedirectPurchaseRequest extends AbstractPurchaseRequest
      */
     public function getData() : array
     {
+        $this->validate('amount', 'card');
         $card = $this->getCard();
-
-        if (!$card) {
-            $card = new CreditCard();
-        }
 
         $data = [
             static::TIMESTAMP => gmdate('YmdHis'),
@@ -60,7 +57,7 @@ class RedirectPurchaseRequest extends AbstractPurchaseRequest
             static::AMOUNT => (int)round($this->getAmount() * 100),
             static::CURRENCY => $this->getCurrency(),
             static::MERCHANT_RESPONSE_URL => $this->getReturnUrl(),
-            static::AUTO_SETTLE_FLAG => $this->getAutoSettleFlag(),
+            static::AUTO_SETTLE_FLAG => true,
             static::HPP_VERSION => 2,
             static::HPP_CUSTOMER_EMAIL => $card->getEmail(),
             static::HPP_BILLING_STREET1 => $card->getBillingAddress1(),

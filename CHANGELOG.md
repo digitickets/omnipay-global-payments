@@ -13,3 +13,7 @@
 ## 0.1.3
   
   - Removes Guzzle for tests
+  
+## 0.2.0
+  
+  - Redirect responses returns false on isSuccessful()

@@ -4,7 +4,7 @@ namespace Omnipay\GlobalPayments\Test\Message;
 
 use Omnipay\GlobalPayments\Message\CompleteRedirectPurchaseRequest;
 use Omnipay\GlobalPayments\Message\CompleteRedirectPurchaseResponse;
-use function Omnipay\PaymentSense\Test\Gateway\getMockHttpRequest;
+use function Omnipay\GlobalPayments\Test\Gateway\getMockHttpRequest;
 use Omnipay\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 

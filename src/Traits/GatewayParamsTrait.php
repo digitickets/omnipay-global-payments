@@ -25,7 +25,7 @@ trait GatewayParamsTrait
      * @param  [type]           $value
      * @return AbstractGateway
      */
-    public function setMerchantId($value) : AbstractGateway
+    public function setMerchantId($value) 
     {
         return $this->setParameter('merchantId', $value);
     }
@@ -44,7 +44,7 @@ trait GatewayParamsTrait
      * @param  [type]           $value
      * @return AbstractGateway
      */
-    public function setAccount($value) : AbstractGateway
+    public function setAccount($value) 
     {
         return $this->setParameter('account', $value);
     }
@@ -63,7 +63,7 @@ trait GatewayParamsTrait
      * @param  [type]           $value
      * @return AbstractGateway
      */
-    public function setChannel($value) : AbstractGateway
+    public function setChannel($value) 
     {
         return $this->setParameter('channel', $value);
     }
@@ -82,27 +82,9 @@ trait GatewayParamsTrait
      * @param  [type]           $value
      * @return AbstractGateway
      */
-    public function setSharedSecret($value) : AbstractGateway
+    public function setSharedSecret($value) 
     {
         return $this->setParameter('sharedSecret', $value);
     }
 
-    /**
-     * getRebatePass
-     * @return string
-     */
-    public function getRebatePass() : string
-    {
-        return $this->getParameter('rebatePassword');
-    }
-
-    /**
-     * setRebatePassword
-     * @param  [type]           $value
-     * @return AbstractGateway
-     */
-    public function setRebatePassword($value) : AbstractGateway
-    {
-        return $this->setParameter('rebatePassword', $value);
-    }
 }

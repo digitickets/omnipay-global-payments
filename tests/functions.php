@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\PaymentSense\Test\Gateway;
+namespace Omnipay\GlobalPayments\Test\Gateway;
 
 const HEADER_REGEX = "(^([^()<>@,;:\\\"/[\]?={}\x01-\x20\x7F]++):[ \t]*+((?:[ \t]*+[\x21-\x7E\x80-\xFF]++)*+)[ \t]*+\r?\n)m";
 const HEADER_FOLD_REGEX = "(\r?\n[ \t]++)";
@@ -10,7 +10,7 @@ const HEADER_FOLD_REGEX = "(\r?\n[ \t]++)";
  *
  * @param string $message Request message string.
  *
- * @return Request
+ * @return array
  */
 function parse_request($message): array
 {
@@ -34,33 +34,6 @@ function parse_request($message): array
     ];
 
     return $attributes;
-}
-
-/**
- * Parses a response message string into a response object.
- *
- * @param string $message Response message string.
- *
- * @return Response
- */
-function parse_response($message)
-{
-    $data = _parse_message($message);
-    // According to https://tools.ietf.org/html/rfc7230#section-3.1.2 the space
-    // between status-code and reason-phrase is required. But browsers accept
-    // responses without space and reason as well.
-    if (!preg_match('/^HTTP\/.* [0-9]{3}( .*|$)/', $data['start-line'])) {
-        throw new \InvalidArgumentException('Invalid response string: ' . $data['start-line']);
-    }
-    $parts = explode(' ', $data['start-line'], 3);
-
-    return new Response(
-        $parts[1],
-        $data['headers'],
-        $data['body'],
-        explode('/', $parts[0])[1],
-        isset($parts[2]) ? $parts[2] : null
-    );
 }
 
 /**
