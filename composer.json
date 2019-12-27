@@ -1,9 +1,9 @@
 {
-    "name": "digitickets/omnipay.globalpayments",
+    "name": "digitickets/omnipay-global-payments",
     "type": "library",
     "description": "Custom OmniPay driver for Global Payments",
     "keywords": ["omnipay", "globalpayments"],
-    "homepage": "https://gitlab.totallydev.com/digitickets/omnipay.globalpayments",
+    "homepage": "https://gitlab.totallydev.com/digitickets/omnipay-global-payments",
     "autoload": {
         "psr-4": { "Omnipay\\GlobalPayments\\" : "src/" }
     },
