@@ -51,20 +51,21 @@ class GlobalPaymentTest extends GatewayTestCase
             'expiryMonth' => 12,
             'expiryYear' => 22,
             'cvv' => 123,
+            'email' => 'test@test.com',
             'billingAddress1' => 'Address 1',
             'billingAddress2' => 'Address 2',
             'billingCity' => 'London',
             'billingPostCode' => 'NW1 9PH',
             'billingState' => 'State',
             'billingCountry' => 'GB',
-            'billingPhone' => 'Phone',
+            'billingPhone' => '01293843745',
             'shippingAddress1' => 'Address 1',
             'shippingAddress2' => 'Address 2',
             'shippingCity' => 'London',
             'shippingPostcode' => 'NW1 9PH',
             'shippingState' => 'State',
             'shippingCountry' => 'GB',
-            'shippingPhone' => 'Phone',
+            'shippingPhone' => '01293843745',
         ];
 
     }
@@ -173,6 +174,21 @@ class GlobalPaymentTest extends GatewayTestCase
         $this->assertEquals(
             '826',
             $params[RedirectPurchaseRequest::HPP_SHIPPING_COUNTRY]
+        );
+
+        $this->assertEquals(
+            'test@test.com',
+            $params[RedirectPurchaseRequest::HPP_CUSTOMER_EMAIL]
+        );
+
+        $this->assertEquals(
+            '44|01293843745',
+            $params[RedirectPurchaseRequest::HPP_CUSTOMER_PHONENUMBER_MOBILE]
+        );
+
+        $this->assertEquals(
+            false,
+            $params[RedirectPurchaseRequest::HPP_ADDRESS_MATCH_INDICATOR]
         );
 
         return $request;

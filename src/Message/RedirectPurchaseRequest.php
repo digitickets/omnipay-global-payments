@@ -1,6 +1,8 @@
 <?php
 namespace Omnipay\GlobalPayments\Message;
 
+use libphonenumber\NumberParseException;
+use libphonenumber\PhoneNumberUtil;
 use function is_numeric;
 use League\ISO3166\Exception\InvalidArgumentException;
 use League\ISO3166\ISO3166;
@@ -21,6 +23,7 @@ class RedirectPurchaseRequest extends AbstractPurchaseRequest
 
     const HPP_VERSION = 'HPP_VERSION';
     const HPP_CUSTOMER_EMAIL = 'HPP_CUSTOMER_EMAIL';
+    const HPP_CUSTOMER_PHONENUMBER_MOBILE = 'HPP_CUSTOMER_PHONENUMBER_MOBILE';
     const HPP_BILLING_STREET1 = 'HPP_BILLING_STREET1';
     const HPP_BILLING_STREET2 = 'HPP_BILLING_STREET2';
     const HPP_BILLING_STREET3 = 'HPP_BILLING_STREET3';
@@ -35,6 +38,7 @@ class RedirectPurchaseRequest extends AbstractPurchaseRequest
     const HPP_SHIPPING_STATE = 'HPP_SHIPPING_STATE';
     const HPP_SHIPPING_POSTALCODE = 'HPP_SHIPPING_POSTALCODE';
     const HPP_SHIPPING_COUNTRY = 'HPP_SHIPPING_COUNTRY';
+    const HPP_ADDRESS_MATCH_INDICATOR = 'HPP_ADDRESS_MATCH_INDICATOR';
     const HPP_CHALLENGE_REQUEST_INDICATOR = 'HPP_CHALLENGE_REQUEST_INDICATOR';
 
     /**
@@ -60,6 +64,7 @@ class RedirectPurchaseRequest extends AbstractPurchaseRequest
             static::AUTO_SETTLE_FLAG => true,
             static::HPP_VERSION => 2,
             static::HPP_CUSTOMER_EMAIL => $card->getEmail(),
+            static::HPP_CUSTOMER_PHONENUMBER_MOBILE => $this->formattedPhoneNumber($card),
             static::HPP_BILLING_STREET1 => $card->getBillingAddress1(),
             static::HPP_BILLING_STREET2 => $card->getBillingAddress2(),
             static::HPP_BILLING_STREET3 => '',
@@ -80,6 +85,7 @@ class RedirectPurchaseRequest extends AbstractPurchaseRequest
                 $card->getShippingCountry(),
                 'numeric'
             ),
+            static::HPP_ADDRESS_MATCH_INDICATOR => false,
             static::HPP_CHALLENGE_REQUEST_INDICATOR => 'NO_PREFERENCE',
         ];
 
@@ -172,5 +178,18 @@ class RedirectPurchaseRequest extends AbstractPurchaseRequest
         $this->validate('card');
 
         return new RedirectPurchaseResponse($this, $data);
+    }
+
+    /**
+     * @param CreditCard $card
+     *
+     * @return string
+     * @throws NumberParseException
+     */
+    private function formattedPhoneNumber(CreditCard $card): string
+    {
+        $phoneUtil = PhoneNumberUtil::getInstance();
+        $numberProto = $phoneUtil->parse($card->getPhone(), $this->getCountry($card->getBillingCountry(), 'alpha2'));
+        return $numberProto->getCountryCode()."|".$card->getPhone();
     }
 }
