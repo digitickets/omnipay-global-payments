@@ -190,6 +190,6 @@ class RedirectPurchaseRequest extends AbstractPurchaseRequest
     {
         $phoneUtil = PhoneNumberUtil::getInstance();
         $numberProto = $phoneUtil->parse($card->getPhone(), $this->getCountry($card->getBillingCountry(), 'alpha2'));
-        return $numberProto->getCountryCode()."|".$card->getPhone();
+        return $numberProto->getCountryCode()."|".str_replace(' ', '', $card->getPhone());
     }
 }
