@@ -5,7 +5,12 @@
 [Omnipay](https://github.com/thephpleague/omnipay) is a framework agnostic, multi-gateway payment
 processing library for PHP 5.3+.
 
-This package implements only GlobalPayments support for Omnipay 2.x Off-sites, where the customer is redirected to enter payment details
+This package implements only GlobalPayments support for Omnipay 2.x Off-sites,
+where the customer is redirected to enter payment details (aka HPP - Hosted Payment Page).
+
+It implements the "ecommerce" version of their integration: https://developer.globalpay.com/ecommerce/payments-start
+
+For refunds, their ecommerce API is used, via the SDK: https://github.com/globalpayments/php-sdk 
 
 ## Installation
 
@@ -33,6 +38,8 @@ The following gateways are provided by this package:
 
 For general usage instructions, please see the main [Omnipay](https://github.com/thephpleague/omnipay)
 repository.
+
+For the refund() function, please pass in a refundPassword. Also make sure you are setting transactionId, transactionRef, and authCode.
 
 This is a sample code of standard Off-site controller using the driver.
 
