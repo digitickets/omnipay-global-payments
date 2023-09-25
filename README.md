@@ -39,7 +39,7 @@ The following gateways are provided by this package:
 For general usage instructions, please see the main [Omnipay](https://github.com/thephpleague/omnipay)
 repository.
 
-For the refund() function, please pass in a refundPassword. Also make sure you are setting transactionId, transactionRef, and authCode.
+For the refund() function, please pass in a refundPassword. Also make sure you are setting originalTransactionId, transactionRef, and authCode.
 
 This is a sample code of standard Off-site controller using the driver.
 

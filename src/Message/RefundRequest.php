@@ -23,6 +23,16 @@ class RefundRequest extends AbstractPurchaseRequest
         return $this->setParameter('authCode', $value);
     }
 
+    public function getOriginalTransactionId()
+    {
+        return $this->getParameter('originalTransactionId');
+    }
+
+    public function setOriginalTransactionId($originalTransactionId)
+    {
+        return $this->setParameter('originalTransactionId', $originalTransactionId);
+    }
+
     /**
      * @throws GatewayException
      */
@@ -40,7 +50,7 @@ class RefundRequest extends AbstractPurchaseRequest
 
         ServicesContainer::configureService($config);
 
-        $orderId = $this->getTransactionId();
+        $orderId = $this->getOriginalTransactionId();
         $paymentsReference = $this->getTransactionReference();
         $authCode = $this->getAuthCode();
 
