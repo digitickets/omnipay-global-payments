@@ -18,6 +18,11 @@ class RefundRequest extends AbstractPurchaseRequest
         return [];
     }
 
+    public function getAuthCode()
+    {
+        return $this->getParameter('authCode');
+    }
+
     public function setAuthCode($value)
     {
         return $this->setParameter('authCode', $value);
@@ -43,6 +48,7 @@ class RefundRequest extends AbstractPurchaseRequest
         $config->accountId = $this->getAccount();
         $config->sharedSecret = $this->getSharedSecret();
         $config->refundPassword = $this->getRefundPassword();
+        $config->rebatePassword = $this->getRefundPassword();
         $config->environment = Environment::PRODUCTION;
         if ($this->getTestMode()) {
             $config->environment = Environment::TEST;
@@ -57,7 +63,7 @@ class RefundRequest extends AbstractPurchaseRequest
         $transaction = Transaction::fromId($paymentsReference, $orderId);
         $transaction->authorizationCode = $authCode;
 
-        $refundTransaction = $transaction->refund($this->getAmountInteger())
+        $refundTransaction = $transaction->refund($this->getAmount())
             ->withCurrency($this->getCurrency())
             ->execute();
 
@@ -66,11 +72,6 @@ class RefundRequest extends AbstractPurchaseRequest
             $refundTransaction
         );
 
-    }
-
-    public function getAuthCode()
-    {
-        return $this->getParameter('authCode');
     }
 
 }
