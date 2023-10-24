@@ -1,4 +1,5 @@
 <?php
+
 namespace Omnipay\GlobalPayments\Message;
 
 use libphonenumber\NumberParseException;
@@ -58,7 +59,7 @@ class RedirectPurchaseRequest extends AbstractPurchaseRequest
             static::MERCHANT_ID => $this->getMerchantId(),
             static::ACCOUNT => $this->getAccount(),
             static::ORDER_ID => $this->getTransactionId(),
-            static::AMOUNT => (int)round($this->getAmount() * 100),
+            static::AMOUNT => $this->getAmountInteger(),
             static::CURRENCY => $this->getCurrency(),
             static::MERCHANT_RESPONSE_URL => $this->getReturnUrl(),
             static::AUTO_SETTLE_FLAG => true,

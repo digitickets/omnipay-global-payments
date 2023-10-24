@@ -1,4 +1,5 @@
 <?php
+
 namespace Omnipay\GlobalPayments\Message;
 
 use Omnipay\Common\Message\RequestInterface;
@@ -8,12 +9,13 @@ class CompleteRedirectPurchaseResponse extends AbstractPurchaseResponse
     const RESULT = 'RESULT';
     const MESSAGE = 'MESSAGE';
     const PASREF = 'PASREF';
+    const AUTHCODE = 'AUTHCODE';
 
     const RESULT_SUCCESS = '00';
 
     /**
      * @param RequestInterface $request
-     * @param array            $data
+     * @param array $data
      */
     public function __construct(RequestInterface $request, array $data = [])
     {
@@ -26,7 +28,7 @@ class CompleteRedirectPurchaseResponse extends AbstractPurchaseResponse
      *
      * @return bool
      */
-    public function isRedirect() : bool
+    public function isRedirect(): bool
     {
         return false;
     }
@@ -36,7 +38,7 @@ class CompleteRedirectPurchaseResponse extends AbstractPurchaseResponse
      *
      * @return bool
      */
-    public function isSuccessful() : bool
+    public function isSuccessful(): bool
     {
         return isset($this->data[static::RESULT])
             && static::RESULT_SUCCESS === $this->data[static::RESULT];
@@ -57,7 +59,13 @@ class CompleteRedirectPurchaseResponse extends AbstractPurchaseResponse
     public function getTransactionReference()
     {
         return isset($this->data[static::PASREF]) ?
-        $this->data[static::PASREF] : null;
+            $this->data[static::PASREF] : null;
+    }
+
+    public function getAuthCode()
+    {
+        return isset($this->data[static::AUTHCODE]) ?
+            $this->data[static::AUTHCODE] : null;
     }
 
     /**
