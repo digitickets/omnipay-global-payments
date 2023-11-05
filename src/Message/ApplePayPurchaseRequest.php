@@ -54,12 +54,14 @@ class ApplePayPurchaseRequest extends AbstractPurchaseRequest
         $address->streetAddress2 = $gatewayCard->getBillingAddress2();
         $address->city = $gatewayCard->getBillingCity();
         $address->postalCode = $gatewayCard->getBillingPostcode();
+        // Set using magic __set. Handles any country code format.
+        $address->countryCode = $gatewayCard->getBillingCountry();
 
-        $customer->homePhone = $gatewayCard->getPhone();
         $customer->firstName = $gatewayCard->getBillingFirstName();
         $customer->lastName = $gatewayCard->getBillingLastName();
         $customer->title = $gatewayCard->getBillingTitle();
         $customer->email = $gatewayCard->getEmail();
+        $customer->address = $address;
         // Note omnipay doesn't support a customer ID, test without one
         // $customer->id = "";
 
@@ -73,7 +75,7 @@ class ApplePayPurchaseRequest extends AbstractPurchaseRequest
             ->withOrderId($this->getTransactionId()) // Our transaction ID
             ->withCustomerData($customer);
 
-        if($this->getClientIp()) {
+        if ($this->getClientIp()) {
             $builder->withCustomerIpAddress($this->getClientIp());
         }
 
@@ -86,11 +88,6 @@ class ApplePayPurchaseRequest extends AbstractPurchaseRequest
         );
     }
 
-    public function setApplePayToken($value)
-    {
-        return $this->setParameter('applePayToken', $value);
-    }
-
     /**
      * Token retrieved using Apple Pay's SDK.
      * Example: {"version":"EC_v1","data":"dvMNzlcy6WNB","header":{"ephemeralPublicKey":"123","transactionId":"123","publicKeyHash":"123"}}
@@ -99,6 +96,11 @@ class ApplePayPurchaseRequest extends AbstractPurchaseRequest
     public function getApplePayToken()
     {
         return $this->getParameter('applePayToken');
+    }
+
+    public function setApplePayToken($value)
+    {
+        return $this->setParameter('applePayToken', $value);
     }
 
 }

@@ -12,7 +12,7 @@ It implements the "ecommerce" version of their integration: https://developer.gl
 
 For refunds, their ecommerce API is used, via the SDK: https://github.com/globalpayments/php-sdk 
 
-For Apple Pay, please pass in a "token" to the purchase() function: https://developer.globalpay.com/ecommerce/applepay#api
+For Apple Pay, please pass in a "applePayToken" to the purchase() function: https://developer.globalpay.com/ecommerce/applepay#api
 
 ## Installation
 
