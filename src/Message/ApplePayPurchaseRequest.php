@@ -42,11 +42,13 @@ class ApplePayPurchaseRequest extends AbstractPurchaseRequest
 
         ServicesContainer::configureService($config);
 
+        $gatewayCard = $this->getCard();
+
         $card = new CreditCardData();
         $card->token = $this->getApplePayToken();
         $card->mobileType = EncyptedMobileType::APPLE_PAY;
+        $card->cardHolderName = $gatewayCard->getBillingName();
 
-        $gatewayCard = $this->getCard();
         $customer = new Customer();
         $address = new Address();
         $address->type = AddressType::BILLING;
@@ -62,8 +64,8 @@ class ApplePayPurchaseRequest extends AbstractPurchaseRequest
         $customer->title = $gatewayCard->getBillingTitle();
         $customer->email = $gatewayCard->getEmail();
         $customer->address = $address;
-        // Note omnipay doesn't support a customer ID, test without one
-        // $customer->id = "";
+        // Note omnipay doesn't support a customer ID, TODO TEST
+        $customer->id = rand(0,100000);
 
         // Perform an auto-settled Apple Pay payment.
         $builder = $card
