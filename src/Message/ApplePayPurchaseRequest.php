@@ -59,13 +59,6 @@ class ApplePayPurchaseRequest extends AbstractPurchaseRequest
         // Set using magic __set. Handles any country code format.
         $address->countryCode = $gatewayCard->getBillingCountry();
 
-        $customer->firstName = $gatewayCard->getBillingFirstName();
-        $customer->lastName = $gatewayCard->getBillingLastName();
-        $customer->title = $gatewayCard->getBillingTitle();
-        $customer->email = $gatewayCard->getEmail();
-        $customer->address = $address;
-        // Note omnipay doesn't support a customer ID, TODO TEST
-        $customer->id = rand(0,100000);
 
         // Perform an auto-settled Apple Pay payment.
         $builder = $card
@@ -75,7 +68,8 @@ class ApplePayPurchaseRequest extends AbstractPurchaseRequest
             ->withModifier(TransactionModifier::ENCRYPTED_MOBILE)
             ->withCurrency($this->getCurrency())
             ->withOrderId($this->getTransactionId()) // Our transaction ID
-            ->withCustomerData($customer);
+            ->withAddress($address)
+            ->withDescription($this->getDescription());
 
         if ($this->getClientIp()) {
             $builder->withCustomerIpAddress($this->getClientIp());
