@@ -47,6 +47,9 @@ class Gateway extends AbstractGateway
         );
     }
 
+    /**
+     * Creates either a redirect for a normal card payment, or if you pass in an applePayToken, an immediate wallet payment.
+     */
     public function purchase(array $parameters = []): RequestInterface
     {
         $parameters = array_merge($this->getParameters(), $parameters);

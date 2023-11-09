@@ -47,18 +47,10 @@ class ApplePayPurchaseRequest extends AbstractPurchaseRequest
         $card = new CreditCardData();
         $card->token = $this->getApplePayToken();
         $card->mobileType = EncyptedMobileType::APPLE_PAY;
+        // Note this doesn't seem to show up properly in their dashboard, but maybe GP will fix it at some point...
         $card->cardHolderName = $gatewayCard->getBillingName();
 
-        $customer = new Customer();
-        $address = new Address();
-        $address->type = AddressType::BILLING;
-        $address->streetAddress1 = $gatewayCard->getBillingAddress1();
-        $address->streetAddress2 = $gatewayCard->getBillingAddress2();
-        $address->city = $gatewayCard->getBillingCity();
-        $address->postalCode = $gatewayCard->getBillingPostcode();
-        // Set using magic __set. Handles any country code format.
-        $address->countryCode = $gatewayCard->getBillingCountry();
-
+        // Note sending any customer information (name or address) just breaks on their end (doesn't match their schema for wallet payments).
 
         // Perform an auto-settled Apple Pay payment.
         $builder = $card
@@ -67,13 +59,11 @@ class ApplePayPurchaseRequest extends AbstractPurchaseRequest
             // Also note the type hint is wrong (TransactionModifier), it actually accepts a string.
             ->withModifier(TransactionModifier::ENCRYPTED_MOBILE)
             ->withCurrency($this->getCurrency())
-            ->withOrderId($this->getTransactionId()) // Our transaction ID
-            ->withAddress($address);
+            ->withOrderId($this->getTransactionId()); // Our transaction ID
 
         if ($this->getClientIp()) {
             $builder->withCustomerIpAddress($this->getClientIp());
         }
-
 
         $transaction = $builder->execute();
 
