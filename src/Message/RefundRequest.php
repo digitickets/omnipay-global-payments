@@ -65,7 +65,6 @@ class RefundRequest extends AbstractPurchaseRequest
 
         $refundTransaction = $transaction->refund($this->getAmount())
             ->withCurrency($this->getCurrency())
-            ->withDescription($this->getDescription())
             ->execute();
 
         return $this->response = new RefundResponse(

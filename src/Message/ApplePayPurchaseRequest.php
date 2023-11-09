@@ -68,8 +68,7 @@ class ApplePayPurchaseRequest extends AbstractPurchaseRequest
             ->withModifier(TransactionModifier::ENCRYPTED_MOBILE)
             ->withCurrency($this->getCurrency())
             ->withOrderId($this->getTransactionId()) // Our transaction ID
-            ->withAddress($address)
-            ->withDescription($this->getDescription());
+            ->withAddress($address);
 
         if ($this->getClientIp()) {
             $builder->withCustomerIpAddress($this->getClientIp());
