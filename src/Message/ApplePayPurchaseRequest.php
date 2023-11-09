@@ -9,6 +9,7 @@ use GlobalPayments\Api\Entities\Enums\EncyptedMobileType;
 use GlobalPayments\Api\Entities\Enums\TransactionModifier;
 use GlobalPayments\Api\Entities\Exceptions\ApiException;
 use GlobalPayments\Api\Entities\Enums\Environment;
+use GlobalPayments\Api\Entities\Exceptions\GatewayException;
 use GlobalPayments\Api\PaymentMethods\CreditCardData;
 use Omnipay\Common\Message\ResponseInterface;
 use GlobalPayments\Api\ServiceConfigs\Gateways\GpEcomConfig;
@@ -50,9 +51,8 @@ class ApplePayPurchaseRequest extends AbstractPurchaseRequest
         // Note this doesn't seem to show up properly in their dashboard, but maybe GP will fix it at some point...
         $card->cardHolderName = $gatewayCard->getBillingName();
 
-        // Note sending any customer information (name or address) just breaks on their end (doesn't match their schema for wallet payments).
-
         // Perform an auto-settled Apple Pay payment.
+        // Note sending any customer information (name or address) just breaks on their end (doesn't match their schema for wallet payments).
         $builder = $card
             ->charge($this->getAmount())
             // Note withModifier() is hinted as "internal", but is still used by all the tests and the docs, with no other way to set!
@@ -65,7 +65,17 @@ class ApplePayPurchaseRequest extends AbstractPurchaseRequest
             $builder->withCustomerIpAddress($this->getClientIp());
         }
 
-        $transaction = $builder->execute();
+        try {
+            $transaction = $builder->execute();
+        } catch (GatewayException $e) {
+            // The SDK throws this for any kind of non-success payment status returned by the GP API, which is annoying.
+            return $this->response = new ApplePayPurchaseFailedResponse(
+                $this,
+                $e->responseMessage,
+                $e->responseCode,
+                $this->getTransactionId()
+            );
+        }
 
         return $this->response = new ApplePayPurchaseResponse(
             $this,
