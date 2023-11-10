@@ -7,9 +7,9 @@ use Omnipay\GlobalPayments\Traits\GatewayParamsTrait;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Message\RequestInterface;
 use Omnipay\GlobalPayments\Message\CompleteRedirectPurchaseRequest;
-use Omnipay\GlobalPayments\Message\AuthorizeRequest;
 use Omnipay\GlobalPayments\Message\RedirectPurchaseRequest;
 use Omnipay\GlobalPayments\Message\RefundRequest;
+use Omnipay\GlobalPayments\Message\ApplePayPurchaseRequest;
 
 /**
  * @method RequestInterface completeAuthorize(array $options = [])
@@ -24,21 +24,11 @@ class Gateway extends AbstractGateway
 {
     use GatewayParamsTrait;
 
-    /**
-     * Get gateway name
-     *
-     * @return string
-     */
     public function getName(): string
     {
         return 'Global Payments';
     }
 
-    /**
-     * Get gateway default parameters
-     *
-     * @return array
-     */
     public function getDefaultParameters(): array
     {
         return [
@@ -49,13 +39,6 @@ class Gateway extends AbstractGateway
         ];
     }
 
-    /**
-     * completePuchase function to be called on provider's callback
-     *
-     * @param array $options
-     *
-     * @return RequestInterface
-     */
     public function completePurchase(array $options = []): RequestInterface
     {
         return $this->createRequest(
@@ -65,15 +48,18 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * puchase function to be called to initiate a purchase
-     *
-     * @param array $parameters
-     *
-     * @return RequestInterface
+     * Creates either a redirect for a normal card payment, or if you pass in an applePayToken, an immediate wallet payment.
      */
     public function purchase(array $parameters = []): RequestInterface
     {
         $parameters = array_merge($this->getParameters(), $parameters);
+
+        if (!empty($parameters["applePayToken"])) {
+            return $this->createRequest(
+                ApplePayPurchaseRequest::class,
+                $parameters
+            );
+        }
 
         return $this->createRequest(
             RedirectPurchaseRequest::class,
