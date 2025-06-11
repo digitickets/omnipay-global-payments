@@ -69,7 +69,7 @@ class ApplePayPurchaseRequest extends AbstractPurchaseRequest
             $transaction = $builder->execute();
         } catch (GatewayException $e) {
             // The SDK throws this for any kind of non-success payment status returned by the GP API, which is annoying.
-            return $this->response = new ApplePayPurchaseFailedResponse(
+            return $this->response = new GlobalPayFailedResponse(
                 $this,
                 $e->responseMessage,
                 $e->responseCode,
