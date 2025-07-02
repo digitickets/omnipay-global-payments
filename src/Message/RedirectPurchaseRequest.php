@@ -4,7 +4,6 @@ namespace Omnipay\GlobalPayments\Message;
 
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberUtil;
-use Omnipay\Common\Exception\InvalidRequestException;
 use function is_numeric;
 use League\ISO3166\Exception\InvalidArgumentException;
 use League\ISO3166\ISO3166;
@@ -63,8 +62,7 @@ class RedirectPurchaseRequest extends AbstractPurchaseRequest
             static::AMOUNT => $this->getAmountInteger(),
             static::CURRENCY => $this->getCurrency(),
             static::MERCHANT_RESPONSE_URL => $this->getReturnUrl(),
-            // False means a delayed capture, you must either void or settle (capture) the payment later.
-            static::AUTO_SETTLE_FLAG => false,
+            static::AUTO_SETTLE_FLAG => true,
             static::HPP_VERSION => 2,
             static::HPP_CUSTOMER_EMAIL => $card->getEmail(),
             static::HPP_CUSTOMER_PHONENUMBER_MOBILE => $this->formattedPhoneNumber($card),
@@ -160,6 +158,7 @@ class RedirectPurchaseRequest extends AbstractPurchaseRequest
      */
     public function validate()
     {
+        $this->httpRequest->request;
         foreach (func_get_args() as $key) {
             $value = $this->parameters->get($key);
             if (! isset($value)) {
