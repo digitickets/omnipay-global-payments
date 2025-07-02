@@ -6,7 +6,7 @@ use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RequestInterface;
 use GlobalPayments\Api\Entities\Transaction;
 
-class GlobalPayFailedResponse extends AbstractResponse
+class ApplePayPurchaseFailedResponse extends AbstractResponse
 {
 
 
@@ -25,23 +25,16 @@ class GlobalPayFailedResponse extends AbstractResponse
      */
     private $transactionId;
 
-    /**
-     * @var string|null
-     */
-    private $transactionReference = null;
-
     public function __construct(
         RequestInterface $request,
         string $responseMessage,
         string $responseCode,
-        string $transactionId,
-        string $transactionReference = null
+        string $transactionId
     ) {
         parent::__construct($request, []);
         $this->responseMessage = $responseMessage;
         $this->responseCode = $responseCode;
         $this->transactionId = $transactionId;
-        $this->transactionReference = $transactionReference;
     }
 
     public function isSuccessful(): bool
@@ -74,7 +67,7 @@ class GlobalPayFailedResponse extends AbstractResponse
      */
     public function getTransactionReference()
     {
-        return $this->transactionReference;
+        return null;
     }
 
     /**

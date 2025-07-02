@@ -2,7 +2,6 @@
 
 namespace Omnipay\GlobalPayments;
 
-use Omnipay\GlobalPayments\Message\VoidRequest;
 use function array_merge;
 use Omnipay\GlobalPayments\Traits\GatewayParamsTrait;
 use Omnipay\Common\AbstractGateway;
@@ -15,6 +14,7 @@ use Omnipay\GlobalPayments\Message\ApplePayPurchaseRequest;
 /**
  * @method RequestInterface completeAuthorize(array $options = [])
  * @method RequestInterface capture(array $options = [])
+ * @method RequestInterface void(array $options = [])
  * @method RequestInterface createCard(array $options = [])
  * @method RequestInterface updateCard(array $options = [])
  * @method RequestInterface deleteCard(array $options = [])
@@ -70,11 +70,6 @@ class Gateway extends AbstractGateway
     public function refund(array $parameters = array())
     {
         return $this->createRequest(RefundRequest::class, $parameters);
-    }
-
-    public function void(array $parameters = array())
-    {
-        return $this->createRequest(VoidRequest::class, $parameters);
     }
 
 }
